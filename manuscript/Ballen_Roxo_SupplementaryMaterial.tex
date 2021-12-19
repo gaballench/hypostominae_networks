@@ -33,6 +33,8 @@ Supplementary material is not typeset so please ensure that all information is c
 
 \subsection{Analytical Pipeline}
 
+\textbf{NOTE: START INSTALLING EVERYTHING IN THE CLUSTER AND RUN A TEST EXAMPLE WITH CLAUDIA'S TUTORIAL IN ORDER TO CHECK THAT EVERYTHING WILL RUN.}
+
 All the analyses were run in the cluster of the Museu de Zoologia da Universidade de S\~{a}o Paulo, with different settings of number of nodes and threads as described for each part of the process.
 
 A total of XXXX loci were recovered with the selected scheme. We used a custom modification of the TICR pipeline (REF) in order to generate gene tree distributions for each of the loci, so that topological uncertainty at the locus level is correctly incorporated into the network estimation down the pipeline.
@@ -92,7 +94,7 @@ df_ticr = hcat(select(df, 1:5),
 CSV.write("CFs_$gtfilename.csv", df_ticr)
 \end{verbatim}
 
-The concordance factor table \texttt{name_of_the_table.csv} that is then used as input for SNAq (REF).
+The concordance factor table \texttt{name\_of\_the\_table.csv} that is then used as input for SNAq (REF).
 
 \subsubsection{Initial Tree}
 
