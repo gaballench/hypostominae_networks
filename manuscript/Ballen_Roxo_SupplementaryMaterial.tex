@@ -31,6 +31,105 @@ Supplementary Material should be uploaded separately on submission. Please inclu
 
 Supplementary material is not typeset so please ensure that all information is clearly presented, the appropriate caption is included in the file and not in the manuscript, and that the style conforms to the rest of the article. To avoid discrepancies between the published article and the supplementary material, please do not add the title, author list, affiliations or correspondence in the supplementary files.
 
+\subsection{Analytical Pipeline}
+
+All the analyses were run in the cluster of the Museu de Zoologia da Universidade de S\~{a}o Paulo, with different settings of number of nodes and threads as described for each part of the process.
+
+A total of XXXX loci were recovered with the selected scheme. We used a custom modification of the TICR pipeline (REF) in order to generate gene tree distributions for each of the loci, so that topological uncertainty at the locus level is correctly incorporated into the network estimation down the pipeline.
+
+\subsubsection{Bayesian infernce}
+
+We used the script \texttt{mb.pl} in order to automatically generate input files for MrBayes (REF) and then run them in parallel in:
+
+\begin{verbatim}
+# divide in three nodes manually, and then use 60 threads per node
+./mb.pl -params
+\end{verbatim}
+
+\subsubsection{Concordance Factors}
+
+We used a custom script for generating concordance factors and their relative frequencies for each quartet in the posterior distribution of each gene tree using \texttt{PhyloNetworks} (REF).
+
+\begin{verbatim}
+#!/usr/bin/julia
+using Distributed
+addprocs(15)
+@everywhere using PhyloNetworks
+#using PhyloNetworks
+using PhyloPlots
+using CSV
+using DataFrames
+
+gtfilename = ARGS[1]
+
+println("Processing $gtfilename...")
+
+# load input trees
+trees = readMultiTopology(gtfilename)
+
+# calculate CFs
+q,t = countquartetsintrees(trees)
+df = writeTableCF(q,t)
+cfs = readTableCF(df)
+
+# add dummy columns to df so that it is get-pop-tree.pl-compliant
+zeros = repeat([0], nrow(df))
+
+df_zeros = DataFrame(CF12_34_lo=zeros,
+                     CF12_34_hi=zeros,
+                     CF13_24_lo=zeros,
+                     CF13_24_hi=zeros,
+                     CF14_23_lo=zeros,
+                     CF14_23_hi=zeros)
+
+df_ticr = hcat(select(df, 1:5),
+               select(df_zeros, 1:2),
+               select(df, 6),
+               select(df_zeros, 3:4),
+               select(df, 7),
+               select(df_zeros, 5:6))
+
+CSV.write("CFs_$gtfilename.csv", df_ticr)
+\end{verbatim}
+
+The concordance factor table \texttt{name_of_the_table.csv} that is then used as input for SNAq (REF).
+
+\subsubsection{Initial Tree}
+
+SNAq requires an initial tree for iteratively calculating the pseudolikelihood and refining the search for hybridisations in a dataset. This can be an arbitrary tree, but often an informed tree is useful for speeding up convergence. We used quartet max cut QMC (REF) in order to infer a tree from the concordance factor table. That tree was used as input for SNAq
+
+\begin{verbatim}
+# calculate the starting tree using part of the TICR pipeline
+run(Cmd(["/home/balleng/programs/TICR/scripts/./get-pop-tree.pl", "CFs_$gtfilename.csv"]))
+\end{verbatim}
+
+\subsubsection{Phylogenetic Network Inference}
+
+Once the initial tree and concordance factor table were estimated, we used SNAq (REF) for estimation of hybrid edges under three different sequential assumptions: \texttt{h = 0}, \texttt{h = 1}, \texttt{h = 2}, and \texttt{h = 3}. SNAq infers the best topologies wich include no, one, two and three hybridisations and score them using the logpseudolikelihood (CHECK THIS). The script below was used for estimating these networks using XX threads in a single core.
+
+\begin{verbatim}
+# read CF table around here
+
+# read starting tree
+start_tree = readTopology("CFs_$gtfilename.csv.QMC.tre")
+
+# calculate a h=0 network
+net0 = snaq!(start_tree, cfs, hmax=0, filename="snaq_h0_$gtfilename", seed=1234, runs = 15)
+
+# calculate a h=1 network
+net1 = snaq!(net0, cfs, hmax=1, filename="snaq_h1_$gtfilename", seed=1234, runs = 15)
+
+# calculate a h=2 network
+net2 = snaq!(net1, cfs, hmax=2, filename="snaq_h2_$gtfilename", seed=1234, runs = 15)
+
+#exit julia
+exit()
+\end{verbatim}
+
+\subsubsection{Postprocessing}
+
+Include here any further step such as the test of tree-likeness that we have never run before in the snaq project.
+
 \section{Supplementary Tables and Figures}
 
 For more information on Supplementary Material and for details on the different file types accepted, please see \href{http://home.frontiersin.org/about/author-guidelines#SupplementaryMaterial}{the Supplementary Material section} of the Author Guidelines.
@@ -66,8 +165,8 @@ Figures, tables, and images will be published under a Creative Commons CC-BY lic
 %%% The use of LaTeX coding to draw Diagrams/Figures/Structures should be avoided. They should be external callouts including graphics.
 
 
-%\bibliographystyle{frontiersinSCNS_ENG_HUMS} %  for Science, Engineering and Humanities and Social Sciences articles, for Humanities and Social Sciences articles please include page numbers in the in-text citations
+\bibliographystyle{frontiersinSCNS_ENG_HUMS} %  for Science, Engineering and Humanities and Social Sciences articles, for Humanities and Social Sciences articles please include page numbers in the in-text citations
 %\bibliographystyle{frontiersinHLTH&FPHY} % for Health and Physics articles
-%\bibliography{references}
+\bibliography{references}
 
 \end{document}
