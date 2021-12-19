@@ -5,6 +5,9 @@
 # raw data
 data/
 
+# any zip file
+*.zip
+
 # History files
 .Rhistory
 .Rapp.history
