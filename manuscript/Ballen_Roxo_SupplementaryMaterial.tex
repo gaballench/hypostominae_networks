@@ -98,11 +98,10 @@ The concordance factor table \texttt{name\_of\_the\_table.csv} that is then used
 
 \subsubsection{Initial Tree}
 
-SNAq requires an initial tree for iteratively calculating the pseudolikelihood and refining the search for hybridisations in a dataset. This can be an arbitrary tree, but often an informed tree is useful for speeding up convergence. We used quartet max cut QMC (REF) in order to infer a tree from the concordance factor table. That tree was used as input for SNAq
+Our ML tree was used as starting tree. Branch lengths were removed as SNAq does not need them for the initial tree.
 
 \begin{verbatim}
-# calculate the starting tree using part of the TICR pipeline
-run(Cmd(["/home/balleng/programs/TICR/scripts/./get-pop-tree.pl", "CFs_$gtfilename.csv"]))
+code here for calculating the ML tree
 \end{verbatim}
 
 \subsubsection{Phylogenetic Network Inference}
