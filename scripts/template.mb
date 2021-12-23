@@ -8,8 +8,8 @@ execute ALIGNMENT;
 
 [close analysis at end]
 set autoclose = yes;
-[set Panaque_cochliodon_LBP3033 as outgroup]
-outgroup Panaque_cochliodon_LBP3033;
+[set Remora_australis as outgroup]
+outgroup Remora_australis;
 [This command shows the status of all the taxa, according to the documentation]
 taxastat;
 
