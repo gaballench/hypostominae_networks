@@ -8,8 +8,6 @@ cd ../data
 # visit each job dir and submit the job
 for i in `ls -d job*`; do
     cd $i
-    echo $i
-    ls *.pbs
     qsub *.pbs
     cd ..
 done
