@@ -1,0 +1,41 @@
+begin mrbayes;
+[Script documentation carried out using comments]
+
+[log the analysis]
+log start filename = ALIGNMENT.log;
+[read the matrix ALIGNMENT]
+execute ALIGNMENT;
+
+[close analysis at end]
+set autoclose = yes;
+[set Panaque_cochliodon_LBP3033 as outgroup]
+outgroup Panaque_cochliodon_LBP3033;
+[This command shows the status of all the taxa, according to the documentation]
+taxastat;
+
+[specification of substitution model]
+lset nst = 6 rates = invgamma; [GTR+I+G]
+
+[allow separate gamma parameters for each partition]
+prset ratepr=variable;
+
+[show taxa]
+taxastat;
+
+[show the model just specified for each partition]
+showmodel;
+
+[set up the MCMC, with this setting the analysis will need 32 threads]
+mcmcp nruns = 4 ngen = 1000000 nchains = 8 samplefreq = 1000 printfreq = 100000;
+[run the MCMC]
+mcmc;
+
+[summarize the posterior trees]
+sumt nruns = 4 relburnin = yes burninfrac = 0.50;
+plot;
+
+[summarize parameter posteriors]
+sump;
+
+log stop;
+end;
