@@ -2,7 +2,8 @@
 *#
 *~
 
-# raw data
+# raw data and output of analyses
+hypostominae_analysis/
 data/
 
 # any zip file
