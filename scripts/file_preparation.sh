@@ -11,7 +11,7 @@ mkdir job1 job2 job3 job4
 COUNTER=1
 
 # process each nexus file to create the script and move them to the appropriate dir
-for i in `ls *.nex`; do
+for i in `ls *.nexus`; do
     # reset the counter to 1 if it's higher than 4
     if [[ "$COUNTER" -gt 4 ]]; then
 	let "COUNTER=1"

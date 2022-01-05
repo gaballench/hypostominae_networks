@@ -8,8 +8,8 @@ execute ALIGNMENT;
 
 [close analysis at end]
 set autoclose = yes;
-[set Remora_australis as outgroup]
-outgroup Remora_australis;
+[set the first taxon as outgroup, it doesn't actually matter which one is for quaratet calculations]
+outgroup 1;
 [This command shows the status of all the taxa, according to the documentation]
 taxastat;
 
