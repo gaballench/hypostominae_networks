@@ -1,9 +1,13 @@
 #!/usr/bin/bash
 
-# remember to mkdir tree_samples before in the pipeline
+mkdir tree_samples
+
+# clean temp files
+rm *~
+
 for i in `ls job*`; do
-    for j in `ls $i/*.log`; do
-	pxlog -f $j -b BURNIN | pxt2new -o $j.newick
+    for j in `ls $i/*.nexus`; do
+	pxlog -f "$j.run*.t" -b 500 | pxt2new -o $j.newick  
     done
 done
 
