@@ -7,23 +7,17 @@ q,t = countquartetsintrees(trees)
 df = writeTableCF(q,t)
 cfs = readTableCF(df)
 
-# add dummy columns to df so that it is get-pop-tree.pl-compliant
-zeros = repeat([0], nrow(df))
+# read starting tree
+start_tree = readTopology("starting_tree.tre")
 
-df_zeros = DataFrame(CF12_34_lo=zeros,
-                     CF12_34_hi=zeros,
-                     CF13_24_lo=zeros,
-                     CF13_24_hi=zeros,
-                     CF14_23_lo=zeros,
-                     CF14_23_hi=zeros)
+# calculate a h=0 network
+net0 = snaq!(start_tree, cfs, hmax=0, filename="snaq_hypostominae_h0.txt", seed=1234, runs = 15)
 
-df_ticr = hcat(select(df, 1:5),
-               select(df_zeros, 1:2),
-               select(df, 6),
-               select(df_zeros, 3:4),
-               select(df, 7),
-               select(df_zeros, 5:6))
+# calculate a h=1 network
+net1 = snaq!(net0, cfs, hmax=1, filename="snaq_hypostominae_h1.txt", seed=1234, runs = 15)
 
-# add code for reading the initial tree
+# calculate a h=2 network
+net2 = snaq!(net1, cfs, hmax=2, filename="snaq_hypostominae_h2.txt", seed=1234, runs = 15)
 
-# add code for calling snaq under the different assumptions h=0:3
+#exit julia
+exit()
