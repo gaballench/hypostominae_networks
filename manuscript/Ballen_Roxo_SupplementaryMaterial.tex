@@ -33,20 +33,19 @@ Supplementary material is not typeset so please ensure that all information is c
 
 \subsection{Analytical Pipeline}
 
-\textbf{NOTE: START INSTALLING EVERYTHING IN THE CLUSTER AND RUN A TEST EXAMPLE WITH CLAUDIA'S TUTORIAL IN ORDER TO CHECK THAT EVERYTHING WILL RUN.}
-
 All the analyses were run in the cluster of the Museu de Zoologia da Universidade de S\~{a}o Paulo, with different settings of number of nodes and threads as described for each part of the process.
 
-A total of XXXX loci were recovered with the selected scheme. We used a custom modification of the TICR pipeline (REF) in order to generate gene tree distributions for each of the loci, so that topological uncertainty at the locus level is correctly incorporated into the network estimation down the pipeline.
+A total of XXXX loci were recovered with the selected scheme. We developed a pipeline for generating posterior tree samples for each locus and then use these distributions, so that topological uncertainty at the locus level is correctly incorporated into the network estimation down the pipeline.
 
 \subsubsection{Bayesian infernce}
 
-We used the script \texttt{mb.pl} in order to automatically generate input files for MrBayes (REF) and then run them in parallel in:
+We wrote code that automatically generates input files for MrBayes (REF), their respective scripts, a script for submitting jobs using PBS, and then run them in parallel using four independent runs and eight chains (one cold and seven hot), requiring a total of 32 threads per individual MrBayes analysis. All the loci were sorted in four jobs of almost the same size (in cases where the number of loci was not a multiple of 4) and run in the cluster MZUSP01 of the Museu de Zoologia da Universidade de São Paulo (Acknowledge the FAPESP process). The average runtime per locus was 4min for a total of ca. 20h execution for XXX loci.
 
 \begin{verbatim}
-# divide in three nodes manually, and then use 60 threads per node
-./mb.pl -params
+# file_preparation.sh
 \end{verbatim}
+
+We then summarized the posterior tree distribution per locus combining the results of the four independent runs, applying a burn-in of 50\% for each run. We then converted them to newick using phyx (REF)) and combined them into a single posterior tree file of gene trees
 
 \subsubsection{Concordance Factors}
 
@@ -90,8 +89,6 @@ df_ticr = hcat(select(df, 1:5),
                select(df_zeros, 3:4),
                select(df, 7),
                select(df_zeros, 5:6))
-
-CSV.write("CFs_$gtfilename.csv", df_ticr)
 \end{verbatim}
 
 The concordance factor table \texttt{name\_of\_the\_table.csv} that is then used as input for SNAq (REF).
@@ -109,22 +106,7 @@ code here for calculating the ML tree
 Once the initial tree and concordance factor table were estimated, we used SNAq (REF) for estimation of hybrid edges under three different sequential assumptions: \texttt{h = 0}, \texttt{h = 1}, \texttt{h = 2}, and \texttt{h = 3}. SNAq infers the best topologies wich include no, one, two and three hybridisations and score them using the logpseudolikelihood (CHECK THIS). The script below was used for estimating these networks using XX threads in a single core.
 
 \begin{verbatim}
-# read CF table around here
-
-# read starting tree
-start_tree = readTopology("CFs_$gtfilename.csv.QMC.tre")
-
-# calculate a h=0 network
-net0 = snaq!(start_tree, cfs, hmax=0, filename="snaq_h0_$gtfilename", seed=1234, runs = 15)
-
-# calculate a h=1 network
-net1 = snaq!(net0, cfs, hmax=1, filename="snaq_h1_$gtfilename", seed=1234, runs = 15)
-
-# calculate a h=2 network
-net2 = snaq!(net1, cfs, hmax=2, filename="snaq_h2_$gtfilename", seed=1234, runs = 15)
-
-#exit julia
-exit()
+# cite julia script here
 \end{verbatim}
 
 \subsubsection{Postprocessing}
