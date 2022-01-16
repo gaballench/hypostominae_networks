@@ -1,7 +1,7 @@
 using PhyloNetworks
 using DataFrames
 
-trees = readMultiPhylo("../tree_samples/trees_allloci.newick")
+trees = readMultiTopology("../data/mafft-nexus-edge-trimmed-clean-75p/tree_samples/trees_allloci.newick")
 
 q,t = countquartetsintrees(trees)
 df = writeTableCF(q,t)
