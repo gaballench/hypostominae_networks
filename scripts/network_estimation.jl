@@ -1,14 +1,14 @@
 using PhyloNetworks
 using DataFrames
 
-trees = readMultiPhylo("tree_samples/trees_allloci.newick")
+trees = readMultiPhylo("../tree_samples/trees_allloci.newick")
 
 q,t = countquartetsintrees(trees)
 df = writeTableCF(q,t)
 cfs = readTableCF(df)
 
 # read starting tree
-start_tree = readTopology("starting_tree.tre")
+start_tree = readTopology("../data/starting_tree/RAxML_bestTree.best")
 
 # calculate a h=0 network
 net0 = snaq!(start_tree, cfs, hmax=0, filename="snaq_hypostominae_h0.txt", seed=1234, runs = 15)
