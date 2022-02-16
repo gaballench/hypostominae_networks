@@ -12,16 +12,9 @@ addprocs(nruns)
 @everywhere using DataFrames
 @everywhere using CSV
 
-# fetch the quartets without the assumption that there are the same terminales in each tree
-trees = readlines("../data/mafft-nexus-edge-trimmed-clean-75p/tree_samples/lesstrees_allloci.newick")
-
-# convert from String newick to HybridNetwork with Functors.fmap
-trees = Functors.fmap(readTopology, trees)
-
-# calculate quartets
-q,t = countquartetsintrees(trees)
-df = writeTableCF(q,t)
-cfs = readTableCF(df)
+#df = CSV.read("../data/CFs_75p.csv")
+#cfs = readTableCF(df)
+cfs = readTableCF("../data/CFs_75p.csv")
 
 # read starting tree
 start_tree = readTopology("../data/starting_tree/RAxML_bestTree.best")
