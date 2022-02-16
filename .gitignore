@@ -2,6 +2,10 @@
 *#
 *~
 
+# ignore directories with temporary or incomplete analyses
+minimal_test/
+snaq75p/
+
 # raw data and output of analyses
 hypostominae_analysis/
 data/
