@@ -9,6 +9,7 @@ snaq75p/
 # raw data and output of analyses
 hypostominae_analysis/
 #data/
+/data/mafft-nexus-edge-trimmed-clean-75p/job*
 
 # any zip file
 *.zip
