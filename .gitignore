@@ -8,7 +8,7 @@ snaq75p/
 
 # raw data and output of analyses
 hypostominae_analysis/
-data/
+#data/
 
 # any zip file
 *.zip
