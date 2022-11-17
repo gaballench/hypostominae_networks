@@ -10,6 +10,8 @@ snaq75p/
 hypostominae_analysis/
 #data/
 data/mafft-nexus-edge-trimmed-clean-75p/job*
+data/mafft-nexus-edge-trimmed-clean-75p/locus_posteriors_newick
+data/mafft-nexus-edge-trimmed-clean-75p/treefiles
 
 # any zip file
 *.zip
