@@ -1,0 +1,34 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 0,
+ tolerance parameters: ftolRel=1.0e-6, ftolAbs=1.0e-6,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 1.0e-6.
+rootname for files: ../data/snaq/snaq_hypostominae_h0
+BEGIN: 20 runs on starting tree ((spectracanthicus_immaculatus43225,(((pterygoplichthys_multiradiatus47289,pterygoplichthys_anisitsi26686):0.008364041372928883,((hemiancistrus_punctulatus60931,hemiancistrus_fuliginosus61299):0.005011070866713997,(((hypostomus_melanephelis54012,(hypostomus_strigaticeps61230,hypostomus_sp76321):0.003907970027418803):0.0006880446776070951,((hypostomus_cf_gymnorhynchus80910,hypostomus_sp55539):0.005117019682375251,hemiancistrus_cerrado66643):0.0006175141057839029):0.0011218356237952909,((hypostomus_cfhemicochliodon64160,hypostomus_sp50059):0.0026987383952453265,hypostomus_faveolus27640):0.0028761835588847124):0.0015239874418671105):0.0031614057085315476):0.0015319168152337895,((spectracanthicus_murinus57231,baryancistrus_beggini39227):0.0017360213336606392,panaque_cochliodon19170):0.00917646082802519):0.001728223505480916):0.0015834333865335037,(scobinancistrus_aureatus61467,((hypancistrus_sp61759,micracanthicus_vandragti54408):0.002093386163354423,(((panaqolus_sp61753,panaqolus_gnomus57729):0.0012321974219661068,panaqolus_sp57507):0.0011567618615170134,(peckoltia_snethlageae57059,(peckoltia_compta61756,peckoltia_braueri69540):0.001714193033163342):0.0003071184064186974):0.0004854122713383984):0.0011778436043040983):0.004322371840987593,aphanotorulus_emarginatus19719);
+       using 21 processors
+
+main seed 1234
+seed: 1234 for run 1
+seed: 59084 for run 2
+seed: 76679 for run 3
+seed: 56623 for run 4
+seed: 46008 for run 5
+seed: 79402 for run 6
+seed: 85414 for run 7
+seed: 20058 for run 8
+seed: 29861 for run 9
+seed: 24683 for run 10
+seed: 57967 for run 11
+seed: 64888 for run 12
+seed: 1090 for run 13
+seed: 6642 for run 14
+seed: 95675 for run 15
+seed: 64669 for run 16
+seed: 11248 for run 17
+seed: 27602 for run 18
+seed: 65166 for run 19
+seed: 5664 for run 20
+
+2022-02-13 8:53:42.385
+MaxNet is (((((pterygoplichthys_multiradiatus47289,pterygoplichthys_anisitsi26686):0.6800332587215876,((hemiancistrus_punctulatus60931,hemiancistrus_fuliginosus61299):0.8765400584296245,(((((hypostomus_cf_gymnorhynchus80910,hypostomus_sp55539):0.7734659815534691,hemiancistrus_cerrado66643):0.004863507053487548,hypostomus_melanephelis54012):0.045641097672084616,(hypostomus_strigaticeps61230,hypostomus_sp76321):0.5047102024173421):0.12290338400813117,((hypostomus_cfhemicochliodon64160,hypostomus_sp50059):0.29306421949456796,hypostomus_faveolus27640):0.28861410194331655):0.13558314102853689):0.4347864927550698):0.18730422619803583,((spectracanthicus_murinus57231,baryancistrus_beggini39227):0.21784142570936932,panaque_cochliodon19170):0.6614555063444074):0.232444126647786,spectracanthicus_immaculatus43225):0.21802712018738252,(scobinancistrus_aureatus61467,((hypancistrus_sp61759,micracanthicus_vandragti54408):0.1642809140977199,(peckoltia_snethlageae57059,(((panaqolus_sp61753,panaqolus_gnomus57729):0.2289871026161377,panaqolus_sp57507):0.2507828725745365,(peckoltia_compta61756,peckoltia_braueri69540):0.43611578680402696):0.06769452774049622):0.11456142115362701):0.2095623218355372):0.640588745812713,aphanotorulus_emarginatus19719); 
+with -loglik 4774.141198671805
