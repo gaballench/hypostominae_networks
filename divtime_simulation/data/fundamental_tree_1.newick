@@ -1,2 +1,15 @@
   12  1
-((((t1,t6),((t12,t7),t8)),(t9,t5)),(t2,((t11,t3),(t4,t10))));
+((((t1,t6)n1,((t12,t7)n2,t8)n3)n4,(t9,t5)n5)n6,(t2,((t11,t3)n7,(t4,t10)n9)n10)n11)n12;
+
+// end of file
+
+this was the original network as returned by PhyloNetworks
+((((t1:0.3092875993,(t6:0.182389245)H24:0.1268983543)n1:0.2253144263,((t12:0.07945210446,t7:0.07945210446)n2:0.297472923,t8:0.3769250274)n3:0.1576769982)n4:0.008249771998,(t9:0.05627782532,t5:0.05627782532)n5:0.4865739723)n6:1.096218017,(t2:1.122255914,((t11:0.1180595136,t3:0.1180595136)n7:0.4626877001,(t4:0.2040895304,(t10:0.182389245)n8:0.02170028537)n9:0.3766576834)n10:0.5415087006)n11:0.5168139003)n12;
+
+This is the same without branch lengths
+((((t1,(t6)H24)n1,((t12,t7)n2,t8)n3)n4,(t9,t5)n5)n6,(t2,((t11,t3)n7,(t4,(t10)n8)n9)n10)n11)n12;
+
+We removed the nodes named H24: (t1,(t6)H24)n1 -> (t1,t6)n1
+and then n8: (t4,(t10)n8)n9 -> (t4,t10)n9
+
+These may be mapped from the other tree after posterior sampling
