@@ -124,18 +124,18 @@ n8_median <- median(n8_chain)
 # annotations in newick are of the following form
 #[&age_median=value,
 # age_95%HPD={min,max}]
-n12_strings <- paste("[&age_median=", n12_median, ",age_95%HPD=", n12_hpdi[1], ",", n12_hpdi[2], "}]", sep="")
-n6_strings <- paste("[&age_median=", n6_median,  ",age_95%HPD={", n6_hpdi[1],  ",", n6_hpdi[2], "}]", sep="")
-n4_strings <- paste("[&age_median=", n4_median,  ",age_95%HPD={", n4_hpdi[1],  ",", n4_hpdi[2], "}]", sep="")
-n1_strings <- paste("[&age_median=", n1_median,  ",age_95%HPD={", n1_hpdi[1],  ",", n1_hpdi[2], "}]", sep="")
-n3_strings <- paste("[&age_median=", n3_median,  ",age_95%HPD={", n3_hpdi[1],  ",", n3_hpdi[2], "}]", sep="")
-n2_strings <- paste("[&age_median=", n2_median,  ",age_95%HPD={", n2_hpdi[1],  ",", n2_hpdi[2], "}]", sep="")
-n5_strings <- paste("[&age_median=", n5_median,  ",age_95%HPD={", n5_hpdi[1],  ",", n5_hpdi[2], "}]", sep="")
-n11_strings <- paste("[&age_median=", n11_median, ",age_95%HPD=", n11_hpdi[1], ",", n11_hpdi[2], "}]", sep="")
-n10_strings <- paste("[&age_median=", n10_median, ",age_95%HPD=", n10_hpdi[1], ",", n10_hpdi[2], "}]", sep="")
-n7_strings <- paste("[&age_median=", n7_median,  ",age_95%HPD={", n7_hpdi[1],  ",", n7_hpdi[2], "}]", sep="")
-n9_strings <- paste("[&age_median=", n9_median,  ",age_95%HPD={", n9_hpdi[1],  ",", n9_hpdi[2], "}]", sep="")
-n8_strings <- paste("[&age_median=", n8_median,  ",age_95%HPD={", n8_hpdi[1],  ",", n8_hpdi[2], "}]", sep="")
+n12_strings <- paste("[&age_median=", n12_median, "@age_95%HPD=", n12_hpdi[1], "@", n12_hpdi[2], "}]", sep="")
+n6_strings <- paste("[&age_median=", n6_median,  "@age_95%HPD={", n6_hpdi[1],  "@", n6_hpdi[2], "}]", sep="")
+n4_strings <- paste("[&age_median=", n4_median,  "@age_95%HPD={", n4_hpdi[1],  "@", n4_hpdi[2], "}]", sep="")
+n1_strings <- paste("[&age_median=", n1_median,  "@age_95%HPD={", n1_hpdi[1],  "@", n1_hpdi[2], "}]", sep="")
+n3_strings <- paste("[&age_median=", n3_median,  "@age_95%HPD={", n3_hpdi[1],  "@", n3_hpdi[2], "}]", sep="")
+n2_strings <- paste("[&age_median=", n2_median,  "@age_95%HPD={", n2_hpdi[1],  "@", n2_hpdi[2], "}]", sep="")
+n5_strings <- paste("[&age_median=", n5_median,  "@age_95%HPD={", n5_hpdi[1],  "@", n5_hpdi[2], "}]", sep="")
+n11_strings <- paste("[&age_median=", n11_median, "@age_95%HPD=", n11_hpdi[1], "@", n11_hpdi[2], "}]", sep="")
+n10_strings <- paste("[&age_median=", n10_median, "@age_95%HPD=", n10_hpdi[1], "@", n10_hpdi[2], "}]", sep="")
+n7_strings <- paste("[&age_median=", n7_median,  "@age_95%HPD={", n7_hpdi[1],  "@", n7_hpdi[2], "}]", sep="")
+n9_strings <- paste("[&age_median=", n9_median,  "@age_95%HPD={", n9_hpdi[1],  "@", n9_hpdi[2], "}]", sep="")
+n8_strings <- paste("[&age_median=", n8_median,  "@age_95%HPD={", n8_hpdi[1],  "@", n8_hpdi[2], "}]", sep="")
 
 # node 8 and node H24 must be contemporary, and therefore they share the time info
 nH24_strings <- n8_strings
@@ -151,7 +151,8 @@ nodes <- c("n12",
 "n10",
 "n7",
 "n9",
-"n8", "#H24")
+#"n8", "#H24")
+"n8")
 
 strings <- c(n12_strings, 
 n6_strings, 
@@ -164,7 +165,8 @@ n11_strings,
 n10_strings, 
 n7_strings, 
 n9_strings, 
-n8_strings, nH24_strings)
+#n8_strings, nH24_strings)
+n8_strings)
 
 ### replace node labels with age info
 annotated_network <- network
@@ -174,4 +176,5 @@ for (i in seq_along(nodes)) {
     annotated_network$node.label[label_idx] <- strings[i]
 }
 
-write.net(annotated_network, file="../data/annotated_network.extnewick")
+formatted_net <- gsub(pattern="@", replacement=",", write.net(annotated_network))
+writeLines(formatted_net, "../data/annotated_network.extnewick")
