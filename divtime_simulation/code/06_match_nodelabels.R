@@ -3,10 +3,10 @@ library(coda)
 library(SiPhyNetwork)
 
 network <- read.net("../data/network.extnewick")
-fundtree1 <- read.tree("../data/fundamental_tree_1.newick")[[1]]
-fundtree2 <- read.tree("../data/fundamental_tree_2.newick")[[1]]
-mcmctree1 <- read.tree("../data/fundamental1/species_tree_with_nodelabels.tre")
-mcmctree2 <- read.tree("../data/fundamental2/species_tree_with_nodelabels.tre")
+fundtree1 <- read.tree("../data/fundamental_tree_1.newick")
+fundtree2 <- read.tree("../data/fundamental_tree_2.newick")
+mcmctree1 <- read.tree("../data/fundamental1/mcmctree.tre")
+mcmctree2 <- read.tree("../data/fundamental2/mcmctree.tre")
 
 # append t_n to the node labels in the mcmcmtree trees
 mcmctree1$node.label <- paste("t_n", mcmctree1$node.label, sep="")
