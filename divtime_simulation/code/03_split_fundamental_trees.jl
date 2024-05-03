@@ -4,12 +4,17 @@ network = readTopology("../data/network.extnewick")
 
 fundtrees = displayedTrees(network,
                            0.0,
-                           nofuse = true,
+                           nofuse = false,
                            keeporiginalroot = true)
 
-# write the first tree to file
-# please note that this method will write a node label HX where the hybrid edge was attached
-# also, the attachment point will become a single-child node which needs to be removed manually: (t1, (t2)); -> (t1, t2);
-# finally, the ntaxa, ntrees line needs to be in the file in order to be phylip-compliant
-writeTopology(fundtrees[1], "../data/fundamental_tree_1.newick")
-writeTopology(fundtrees[2], "../data/fundamental_tree_2.newick")
+# write the trees to a file
+# first tree
+write("../data/fundamental_tree_1.newick", "  $(network.numTaxa)  1\n")
+io = open("../data/fundamental_tree_1.newick", "a")
+writeTopology(fundtrees[1], io)
+close(io)
+# second tree
+write("../data/fundamental_tree_2.newick", "  $(network.numTaxa)  1\n")
+io = open("../data/fundamental_tree_2.newick", "a")
+writeTopology(fundtrees[2], io)
+close(io)
