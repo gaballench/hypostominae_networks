@@ -83,3 +83,56 @@ for (i in seq_along(fundtree_nodelabels)) {
 formatted_net <- gsub(pattern="@", replacement=",", write.net(annotated_network))
 annotated_network$node.label <- gsub(pattern="@", replacement=",", annotated_network$node.label)
 writeLines(formatted_net, "../data/annotated_network.extnewick")
+
+### try to calculate bran lengths in time with the posterior medians
+
+Ntips <- length(network$tip.label)
+
+# transfer the age information from sampled nodes to hybrid unsampled ones
+age_stats_bkp <- age_stats
+for (i in 1:nrow(network$reticulation)) {
+    parent <- network$reticulation[i, 1]
+    parent_label <- network$node.label[parent-Ntips]
+    child <- network$reticulation[i, 2]
+    child_label <- network$node.label[child-Ntips]
+    if (!(parent_label %in% fundtree_nodelabels) & !(child_label %in% fundtree_nodelabels)){
+        stop("None of parent and child reticulation edge were sampled in time\nin reticulation ", i, "\n")
+    }
+    if ((parent_label %in% fundtree_nodelabels) & (child_label %in% fundtree_nodelabels)){
+        cat("Both parent and child reticulation edge were sampled in time\nin reticulation", i, "\n")
+        next
+    }
+    if ((parent_label %in% fundtree_nodelabels)) {
+        parent_idx <- which(age_stats$node == parent_label)
+        age_stats <- rbind(age_stats, age_stats[parent_idx, ])
+        age_stats[nrow(age_stats), "node"] <- child_label
+        next
+    }
+    if ((child_label %in% fundtree_nodelabels)) {
+        child_idx <- which(age_stats$node == child_label)
+        age_stats <- rbind(age_stats, age_stats[child_idx, ])
+        age_stats[nrow(age_stats), "node"] <- parent_label
+    }
+}
+
+age_brlens <- vector(length=length(network$edge.length), mode="numeric")
+# calculate branch lengths in time
+for (i in 1:nrow(network$edge)) {
+    parent <- network$edge[i, 1]
+    child <- network$edge[i, 2]
+    parent_idx <- which(age_stats$node == network$node.label[parent-Ntips])
+    parent_age <- age_stats[parent_idx, "median"]
+    if (child <= Ntips) { # calc ages beforehand and 0 if tips
+        child_age <- 0.0
+    } else {
+        child_idx <- which(age_stats$node == network$node.label[child-Ntips])
+        child_age <- age_stats[child_idx, "median"]
+    }
+    age_brlens[i] <- parent_age - child_age
+}
+
+net <- network
+
+net$edge.length <- age_brlens
+
+# branches don't seem to match :'(
